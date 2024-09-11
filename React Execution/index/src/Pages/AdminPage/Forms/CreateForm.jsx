@@ -1,6 +1,6 @@
 import {Center, Text, Card, CardHeader, CardBody, Input, CardFooter, Button, Select, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Flex, VStack} from "@chakra-ui/react";
-import { useState } from "react";
-import { createEvent } from "../../../processing";
+import { useEffect, useState } from "react";
+import { createEvent, getUserRole } from "../../../processing";
 import { useNavigate } from "react-router-dom";
 import AlertMessage from "../../../Components/Alert/AlertMessage";
 
@@ -64,7 +64,7 @@ function CreateForm()
             setShowInvalidDataErrorAlert(true);
         }
     }
-
+    
     const [event, setEvent]=useState({
         Name:null,
         Description:null,
@@ -75,13 +75,27 @@ function CreateForm()
         ImageURL:null
     })
     
+    const [role, setRole]=useState(null);
+
     const[showAlertonCreate, setShowAlertonCreate]=useState(false);
     const[showInvalidDataErrorAlert, setShowInvalidDataErrorAlert]=useState(false);
     const[showIfEventExistErrorAlert, setShowIfEventExistErrorAlert]=useState(false);
 
     const navigate=useNavigate();
 
+
+    useEffect(()=>
+    {
+        const getData=async()=>
+        {
+            var roleData=await getUserRole();
+            setRole(roleData);
+        }
+        getData();
+    },[])
     return(
+        <>
+        {role==="Admin"?
         <Center minH={"3xl"}>
             <Card w={"50%"} h={"80%"} bg={"white"} boxShadow={"2px 5px 5px 2px"}>
                 <CardHeader borderBottom={"1px solid black"} marginBottom={"3%"}>
@@ -121,7 +135,8 @@ function CreateForm()
                 onClose={setShowIfEventExistErrorAlert}
                 />
             </Card>
-        </Center>
+        </Center>:<Text fontWeight={"bold"} fontSize={"30px"}>403 Forbidden</Text>}
+        </>
     )
 }
 
