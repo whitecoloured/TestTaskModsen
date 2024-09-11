@@ -1,0 +1,1 @@
+sqlcmd -S WIN-Q28J0UDQIV6\SQLEXPRESS -E -Q "USE [eventsDB] EXEC [dbo].[DeleteEventsWhoseTimeHasExpired]"
