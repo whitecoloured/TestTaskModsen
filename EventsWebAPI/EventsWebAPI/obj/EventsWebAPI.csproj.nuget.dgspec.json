@@ -4,14 +4,89 @@
     "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI\\EventsWebAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI\\EventsWebAPI.csproj": {
+    "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Application\\EventsWebAPI.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI\\EventsWebAPI.csproj",
-        "projectName": "EventsWebAPI",
-        "projectPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI\\EventsWebAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Application\\EventsWebAPI.Application.csproj",
+        "projectName": "EventsWebAPI.Application",
+        "projectPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Application\\EventsWebAPI.Application.csproj",
         "packagesPath": "C:\\Users\\Юрий\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI\\obj\\",
+        "outputPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "E:\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Core\\EventsWebAPI.Core.csproj": {
+                "projectPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Core\\EventsWebAPI.Core.csproj"
+              },
+              "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Infrastructure\\EventsWebAPI.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Infrastructure\\EventsWebAPI.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[5.2.0, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[5.0.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Core\\EventsWebAPI.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Core\\EventsWebAPI.Core.csproj",
+        "projectName": "EventsWebAPI.Core",
+        "projectPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Core\\EventsWebAPI.Core.csproj",
+        "packagesPath": "C:\\Users\\Юрий\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "E:\\NuGet\\NuGet.Config",
@@ -39,19 +114,65 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Infrastructure\\EventsWebAPI.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Infrastructure\\EventsWebAPI.Infrastructure.csproj",
+        "projectName": "EventsWebAPI.Infrastructure",
+        "projectPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Infrastructure\\EventsWebAPI.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Юрий\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "E:\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Core\\EventsWebAPI.Core.csproj": {
+                "projectPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Core\\EventsWebAPI.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
           "dependencies": {
-            "FluentValidation": {
-              "target": "Package",
-              "version": "[5.0.0.1, )"
-            },
-            "Microsoft.AspNetCore.Authentication.JwtBearer": {
-              "target": "Package",
-              "version": "[5.0.17, )"
-            },
-            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
-              "target": "Package",
-              "version": "[5.0.17, )"
-            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.17, )"
@@ -69,6 +190,80 @@
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.17, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI\\EventsWebAPI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI\\EventsWebAPI.csproj",
+        "projectName": "EventsWebAPI",
+        "projectPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI\\EventsWebAPI.csproj",
+        "packagesPath": "C:\\Users\\Юрий\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "E:\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Application\\EventsWebAPI.Application.csproj": {
+                "projectPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Application\\EventsWebAPI.Application.csproj"
+              },
+              "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Core\\EventsWebAPI.Core.csproj": {
+                "projectPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Core\\EventsWebAPI.Core.csproj"
+              },
+              "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Infrastructure\\EventsWebAPI.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Infrastructure\\EventsWebAPI.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[5.0.17, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
               "version": "[5.0.17, )"
             },

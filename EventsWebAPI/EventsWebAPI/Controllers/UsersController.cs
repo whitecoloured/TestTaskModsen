@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using EventsWebAPI.Dto_s.Users;
-using EventsWebAPI.Requests.User;
-using EventsWebAPI.Jwt.JwtTokenProviderService;
-using Microsoft.AspNetCore.Http;
+using EventsWebAPI.Application.Dto_s.Requests.User;
+using EventsWebAPI.Application.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.Extensions.Primitives;
-using EventsWebAPI.Jwt.JwtDataProviderService;
-using FluentValidation;
-using EventsWebAPI.Repositories.Interfaces;
 
 namespace EventsWebAPI.Controllers
 {
@@ -22,32 +12,20 @@ namespace EventsWebAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _repository;
-        private readonly JwtTokenProviderService _jwtProvider;
-        private readonly JwtDataProviderService _jwtDataProvider;
-        private readonly IValidator<RegisterUserRequest> _createValidator;
-
-        public UsersController(IUserRepository repository, JwtTokenProviderService jwtProvider, JwtDataProviderService jwtDataProvider, IValidator<RegisterUserRequest> createValidator)
+        private readonly UserService _service;
+        public UsersController(UserService service)
         {
-            _repository = repository;
-            _jwtProvider = jwtProvider;
-            _jwtDataProvider = jwtDataProvider;
-            _createValidator = createValidator;
+            _service = service;
         }
 
         [HttpGet]
         [Authorize(policy: "UserPolicy")]
         [Route("GetProfileInfo")]
-        public async Task<IActionResult> GetProfileInfo()
+        public async Task<IActionResult> GetProfileInfo(CancellationToken ct)
         {
             var headerData = Request.Headers.FirstOrDefault(x => x.Key == "Authorization");
-            if (headerData.Value.ToString().Trim()=="")
-            {
-                return BadRequest();
-            }
-            var UserID = _jwtDataProvider.GetUserIDFromToken(headerData);
-            var data = await _repository.GetUserByIdAsync(UserID);
-            return Ok(data.ToUserDto());
+            var userData = await _service.GetProfileInfo(headerData, ct);
+            return Ok(userData);
         }
 
         [HttpGet]
@@ -56,65 +34,33 @@ namespace EventsWebAPI.Controllers
         public IActionResult GetUserRole()
         {
             var headerData = Request.Headers.FirstOrDefault(x => x.Key == "Authorization");
-            if (headerData.Value.ToString().Trim() == "")
-            {
-                return BadRequest();
-            }
-            var Role = _jwtDataProvider.GetUserRoleFromToken(headerData);
-            return Ok(Role);
+            string role = _service.GetUserRole(headerData);
+            return Ok(role);
         }
+
         [HttpPost]
         [Route("Register")]
-        public async Task<IActionResult> Register(RegisterUserRequest request)
+        public async Task<IActionResult> Register(RegisterUserRequest request, CancellationToken ct)
         {
-            var data = await _repository.GetUserByEmailAsync(request.Email);
-            if (data != null)
-            {
-                return StatusCode(406);
-            }
-            var modelState = _createValidator.Validate(request);
-            if (!modelState.IsValid)
-            {
-                return BadRequest();
-            }
-            await _repository.CreateUserAsync(request);
-
-            var user = await _repository.GetUserByEmailAsync(request.Email);
-            var token = _jwtProvider.GenerateToken(user);
-
+            string token = await _service.Register(request, ct);
             return Ok(token);
         }
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login(LoginUserRequest request)
+        public async Task<IActionResult> Login(LoginUserRequest request, CancellationToken ct)
         {
-            var data = await _repository.GetUserByEmailAsync(request.Email);
-            if (data==null)
-            {
-                return NotFound();
-            }
-            string token = _jwtProvider.GenerateToken(data);
+            string token = await _service.Login(request, ct);
             return Ok(token);
         }
 
         [HttpDelete]
         [Authorize(policy: "UserPolicy")]
         [Route("DeleteUserProfile")]
-        public async Task<IActionResult> DeleteUserProfile()
+        public async Task<IActionResult> DeleteUserProfile(CancellationToken ct)
         {
             var headerData=Request.Headers.FirstOrDefault(x => x.Key == "Authorization");
-            if (headerData.Value.ToString().Trim() == "")
-            {
-                return BadRequest();
-            }
-            var UserID = _jwtDataProvider.GetUserIDFromToken(headerData);
-            var data = await _repository.GetUserByIdAsync(UserID);
-            if (data==null)
-            {
-                return NotFound();
-            }
-            await _repository.DeleteUserAsync(data);
+            await _service.DeleteUserProfile(headerData, ct);
             return Ok();
         }
 

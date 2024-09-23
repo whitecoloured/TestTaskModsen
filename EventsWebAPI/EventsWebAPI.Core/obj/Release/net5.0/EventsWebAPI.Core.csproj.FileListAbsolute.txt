@@ -1,0 +1,16 @@
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\bin\Release\net5.0\EventsWebAPI.Core.exe
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\bin\Release\net5.0\EventsWebAPI.Core.deps.json
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\bin\Release\net5.0\EventsWebAPI.Core.runtimeconfig.json
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\bin\Release\net5.0\EventsWebAPI.Core.runtimeconfig.dev.json
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\bin\Release\net5.0\EventsWebAPI.Core.dll
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\bin\Release\net5.0\ref\EventsWebAPI.Core.dll
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\bin\Release\net5.0\EventsWebAPI.Core.pdb
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\obj\Release\net5.0\EventsWebAPI.Core.csproj.AssemblyReference.cache
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\obj\Release\net5.0\EventsWebAPI.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\obj\Release\net5.0\EventsWebAPI.Core.AssemblyInfoInputs.cache
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\obj\Release\net5.0\EventsWebAPI.Core.AssemblyInfo.cs
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\obj\Release\net5.0\EventsWebAPI.Core.csproj.CoreCompileInputs.cache
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\obj\Release\net5.0\EventsWebAPI.Core.dll
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\obj\Release\net5.0\ref\EventsWebAPI.Core.dll
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\obj\Release\net5.0\EventsWebAPI.Core.pdb
+C:\Users\Юрий\Desktop\Тестовое задание Modsen\EventsWebAPI\EventsWebAPI.Core\obj\Release\net5.0\EventsWebAPI.Core.genruntimeconfig.cache

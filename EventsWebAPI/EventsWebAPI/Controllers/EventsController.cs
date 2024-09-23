@@ -1,19 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using EventsWebAPI.Dto_s.Events;
-using EventsWebAPI.Requests.Event;
-using EventsWebAPI.Enums;
-using Microsoft.EntityFrameworkCore;
+using EventsWebAPI.Application.Dto_s.Requests.Event;
+using EventsWebAPI.Application.Services;
 using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
 using Microsoft.AspNetCore.Authorization;
-using FluentValidation;
-using EventsWebAPI.Repositories.Interfaces;
-using EventsWebAPI.Repositories.Implementations;
 
 namespace EventsWebAPI.Controllers
 {
@@ -21,14 +13,10 @@ namespace EventsWebAPI.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
-        private readonly IEventRepository _repository;
-        private readonly IValidator<CreateEventRequest> _createValidator;
-        private readonly IValidator<UpdateEventRequest> _updateValidator;
-        public EventsController(IEventRepository repository,IValidator<CreateEventRequest> createValidator, IValidator<UpdateEventRequest> updateValidator)
+        private readonly EventService _service;
+        public EventsController(EventService service)
         {
-            _repository = repository;
-            _createValidator = createValidator;
-            _updateValidator = updateValidator;
+            _service = service;
         }
 
 
@@ -39,107 +27,52 @@ namespace EventsWebAPI.Controllers
             int page = -1)
         {
 
-            var data = await _repository.GetAllEventsAsQueryableAsync(searchRequest, filterRequest);
-
-            int eventsAmount = data.Count();
-
-            if (page!=-1)
-            {
-                data = _repository.GetEventsByPage(data, page);
-            }
-
-            var displayData = await data
-                                .Select(e => e.ToEventDto())
-                                .ToListAsync();
-
-            return Ok(new DisplayEventsDTO() { EventsList=displayData, EventsAmount=eventsAmount});
+            var data = await _service.GetAllEventsAsync(searchRequest, filterRequest, page);
+            return Ok(data);
         }
 
         [HttpGet]
         [Route("GetEventById")]
-        public async Task<IActionResult> GetEventById([Required] Guid id)
+        public async Task<IActionResult> GetEventById([Required] Guid id, CancellationToken ct)
         {
-            var data = await _repository.GetEventByIdAsync(id);
-            return Ok(data.ToGetEventDto());
+            var data = await _service.GetEventById(id, ct);
+            return Ok(data);
         }
 
         [HttpGet]
         [Route("GetEventInfoById")]
-        public async Task<IActionResult> GetEventInfoById([Required]Guid id)
+        public async Task<IActionResult> GetEventInfoById([Required]Guid id, CancellationToken ct)
         {
-            var data = await _repository.GetEventByIdIncludingMembersAsync(id);
-            return Ok(data.ToEventInfoDto());
+            var data = await _service.GetEventWithMembersById(id, ct);
+            return Ok(data);
         }
+
         [HttpPost]
         [Authorize(policy:"AdminPolicy")]
         [Route("AddEvent")]
-        public async Task<IActionResult> AddEvent(CreateEventRequest request)
+        public async Task<IActionResult> AddEvent(CreateEventRequest request, CancellationToken ct)
         {
-            var modelState = _createValidator.Validate(request);
-            if (!modelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            if (await _repository.HasAnySameEventsAsync(request))
-            {
-                return StatusCode(406);
-            }
-
-            await _repository.CreateEventAsync(request);
+            await _service.CreateEvent(request, ct);
             return Ok();
         }
+
         [HttpPut]
         [Authorize(policy: "AdminPolicy")]
         [Route("UpdateEvent")]
-        public async Task<IActionResult> UpdateEvent([Required]Guid EventID, UpdateEventRequest request)
+        public async Task<IActionResult> UpdateEvent([Required]Guid EventID, UpdateEventRequest request, CancellationToken ct)
         {
 
-            var data = await _repository.GetEventByIdAsync(EventID);
-            if (data==null)
-            {
-                return NotFound();
-            }
-
-            var modelState = _updateValidator.Validate(request);
-            if (!modelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-
-            if (await _repository.HasAnySameEventsAsync(request)
-                || await IsMaxAmountLessThanMembersAmount(EventID, request.MaxAmountOfMembers))
-            {
-                return StatusCode(406);
-            }
-
-            await _repository.UpdateEventAsync(data, request);
+            await _service.UpdateEvent(EventID, request, ct);
             return Ok();
         }
+
         [HttpDelete]
         [Authorize(policy: "AdminPolicy")]
         [Route("DeleteEvent")]
-        public async Task<IActionResult> DeleteEvent([Required]Guid EventID)
+        public async Task<IActionResult> DeleteEvent([Required]Guid EventID, CancellationToken ct)
         {
-            var data = await _repository.GetEventByIdAsync(EventID);
-            if (data == null)
-            {
-                return NotFound();
-            }
-            await _repository.DeleteEventAsync(data);
+            await _service.DeleteEvent(EventID, ct);
             return Ok();
-        }
-
-        private async Task<bool> IsMaxAmountLessThanMembersAmount(Guid ID,int MaxAmountOfMembers)
-        {
-            var dataWithMembers = await _repository.GetEventByIdIncludingMembersAsync(ID);
-            int actualMembersAmount = dataWithMembers.Members.Count;
-            if (actualMembersAmount > MaxAmountOfMembers)
-            {
-                return true;
-            }
-            else return false;
         }
     }
 }
