@@ -2,9 +2,6 @@
 using System.Threading.Tasks;
 using Moq;
 using EventsWebAPI.Core.Enums;
-using EventsWebAPI.Application.Services;
-using EventsWebAPI.Application.Dto_s.Requests.Event;
-using EventsWebAPI.Application.Dto_s.Responses.Events;
 using EventsWebAPI.Context;
 using EventsWebAPI.UnitTests.Factory;
 using EventsWebAPI.Infrastructure.Repositories.Interfaces;
@@ -17,6 +14,9 @@ using Xunit;
 using System.Threading;
 using EventsWebAPI.Core.Exceptions;
 using FluentValidation.Results;
+using EventsWebAPI.Application.Commands_and_Queries.Events.GetAllEvents;
+using EventsWebAPI.Application.Commands_and_Queries.Events.CreateEvent;
+using EventsWebAPI.Application.Commands_and_Queries.Events.UpdateEvent;
 
 namespace EventsWebAPI.UnitTests.Tests
 {
@@ -27,7 +27,6 @@ namespace EventsWebAPI.UnitTests.Tests
         private readonly Mock<CreateEventModelValidator> mockCreateValidator;
         private readonly Mock<UpdateEventModelValidator> mockUpdateValidator;
         private readonly Mock<IMapper> mockMapper;
-        private readonly EventService service;
 
         public EventServicesTests()
         {
@@ -36,7 +35,6 @@ namespace EventsWebAPI.UnitTests.Tests
             mockCreateValidator = new Mock<CreateEventModelValidator>();
             mockUpdateValidator = new Mock<UpdateEventModelValidator>();
             mockMapper = new Mock<IMapper>();
-            service = new EventService(repo, mockCreateValidator.Object, mockUpdateValidator.Object, mockMapper.Object);
         }
 
         [Fact]
@@ -46,12 +44,14 @@ namespace EventsWebAPI.UnitTests.Tests
             var events = GetEvents();
             context.Events.AddRange(events);
             context.SaveChanges();
+            CancellationToken ct = new();
 
-            SearchEventsRequest searchRequest = new(null, null, null);
-            FilterEventsRequest filterRequest = new(null, true);
+            GetAllEventsQuery query = new(null, null);
+
+            var handler = new GetAllEventsQueryHandler(repo, mockMapper.Object);
             //Act
 
-            var result = await service.GetAllEventsAsync(searchRequest, filterRequest, -1);
+            var result = await handler.Handle(query, ct);
 
             //Assert
 
@@ -63,7 +63,7 @@ namespace EventsWebAPI.UnitTests.Tests
         public async Task EventServices_CreateEvent_BadRequest()
         {
             //Arrange
-            CreateEventRequest request = new()
+            CreateEventCommand request = new()
             {
                 Name = "NameName",
                 Description = "DescriptionDescription",
@@ -76,10 +76,12 @@ namespace EventsWebAPI.UnitTests.Tests
             CancellationToken ct = new();
 
             mockCreateValidator.Setup(v => v.Validate(request)).Throws(new BadRequestException());
+
+            var handler = new CreateEventCommandHandler(repo,mockCreateValidator.Object, mockMapper.Object);
             //Act
 
             //Assert
-            await Assert.ThrowsAsync<BadRequestException>(() => service.CreateEvent(request, ct));
+            await Assert.ThrowsAsync<BadRequestException>(() => handler.Handle(request, ct));
         }
 
         [Fact]
@@ -89,7 +91,7 @@ namespace EventsWebAPI.UnitTests.Tests
             var _event = GetEvent();
             context.Events.Add(_event);
             context.SaveChanges();
-            CreateEventRequest request = new()
+            CreateEventCommand request = new()
             {
                 Name = "NameName",
                 Description = "DescriptionDescription",
@@ -103,17 +105,19 @@ namespace EventsWebAPI.UnitTests.Tests
 
             mockCreateValidator.Setup(v => v.Validate(request)).Returns(new ValidationResult());
             mockMapper.Setup(m => m.Map<Event>(request)).Returns(GetEvent());
+
+            var handler = new CreateEventCommandHandler(repo, mockCreateValidator.Object, mockMapper.Object);
             //Act
 
             //Assert
-            await Assert.ThrowsAsync<NotAcceptableException>(() => service.CreateEvent(request, ct));
+            await Assert.ThrowsAsync<NotAcceptableException>(() => handler.Handle(request, ct));
         }
 
         [Fact]
         public void EventServices_CreateEvent_Success()
         {
             //Arrange
-            CreateEventRequest request = new()
+            CreateEventCommand request = new()
             {
                 Name = "NameName",
                 Description = "DescriptionDescription",
@@ -128,8 +132,10 @@ namespace EventsWebAPI.UnitTests.Tests
             mockCreateValidator.Setup(v => v.Validate(request)).Returns(new ValidationResult());
             mockMapper.Setup(m => m.Map<Event>(request)).Returns(GetEvent());
 
+            var handler = new CreateEventCommandHandler(repo, mockCreateValidator.Object, mockMapper.Object);
+
             //Act
-            Task result = service.CreateEvent(request, ct);
+            Task result = handler.Handle(request, ct);
 
             //Assert
             Assert.True(result.IsCompletedSuccessfully);
@@ -165,19 +171,24 @@ namespace EventsWebAPI.UnitTests.Tests
                 MaxAmountOfMembers = 3,
                 ImageURL = null
             };
+
+            UpdateEventCommand command = new(ID, request);
             CancellationToken ct = new();
 
             mockUpdateValidator.Setup(v => v.Validate(request)).Throws(new BadRequestException());
 
+            var handler = new UpdateEventCommandHandler(repo, mockUpdateValidator.Object, mockMapper.Object);
+
             //Act
 
             //Assert
-            await Assert.ThrowsAsync<BadRequestException>(() => service.UpdateEvent(ID, request, ct));
+            await Assert.ThrowsAsync<BadRequestException>(() => handler.Handle(command,ct));
         }
 
         [Fact]
         public async Task EventServices_UpdateEvent_NotAcceptable()
         {
+            //Arrange
             Guid ID = Guid.NewGuid();
             var _event = new Event()
             {
@@ -202,14 +213,20 @@ namespace EventsWebAPI.UnitTests.Tests
                 MaxAmountOfMembers = 3,
                 ImageURL = null,
             };
+
+            UpdateEventCommand command = new(ID, request);
             CancellationToken ct = new();
 
             mockUpdateValidator.Setup(v => v.Validate(request)).Returns(new ValidationResult());
             mockMapper.Setup(m => m.Map<Event>(request)).Returns(GetEventV2());
 
 
+            //Act
+            var handler = new UpdateEventCommandHandler(repo, mockUpdateValidator.Object, mockMapper.Object);
+
+
             //Assert
-            await Assert.ThrowsAsync<NotAcceptableException>(() => service.UpdateEvent(ID, request, ct));
+            await Assert.ThrowsAsync<NotAcceptableException>(() => handler.Handle(command, ct));
         }
 
         [Fact]
@@ -241,13 +258,16 @@ namespace EventsWebAPI.UnitTests.Tests
                 MaxAmountOfMembers = 3,
                 ImageURL = null
             };
+
+            UpdateEventCommand command = new(ID, request);
             CancellationToken ct = new();
 
             mockUpdateValidator.Setup(v => v.Validate(request)).Returns(new ValidationResult());
             mockMapper.Setup(m => m.Map<Event>(request)).Returns(GetEvent());
 
+            var handler = new UpdateEventCommandHandler(repo, mockUpdateValidator.Object, mockMapper.Object);
             //Act
-            Task result = service.UpdateEvent(ID, request, ct);
+            Task result = handler.Handle(command, ct);
 
             //Assert
             Assert.True(result.IsCompletedSuccessfully);

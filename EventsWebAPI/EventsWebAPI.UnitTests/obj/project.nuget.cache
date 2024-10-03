@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "susrHDEblhpCZDJFdvb4W4eYVHyN57SsbGg8hApzczABKRMnpPhP/xxrtSTJFxs/31Y84CvfCZQvfr+GkXpVTg==",
+  "dgSpecHash": "KStXiKXvl1VzQ9YuMQ4kO57ebgd2lA6iiesjgIFt/6E61VyoF+jaZNBnegQ9A9ne98h0/LFtl+KgxAqK80PApw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.UnitTests\\EventsWebAPI.UnitTests.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,9 @@
     "C:\\Users\\Юрий\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\1.1.0\\automapper.extensions.microsoft.dependencyinjection.1.1.0.nupkg.sha512",
     "C:\\Users\\Юрий\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\Юрий\\.nuget\\packages\\fluentvalidation\\5.0.0.1\\fluentvalidation.5.0.0.1.nupkg.sha512",
+    "C:\\Users\\Юрий\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
+    "C:\\Users\\Юрий\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\Юрий\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\9.0.0\\mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
     "C:\\Users\\Юрий\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.17\\microsoft.aspnetcore.authentication.jwtbearer.5.0.17.nupkg.sha512",
     "C:\\Users\\Юрий\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\5.0.17\\microsoft.aspnetcore.jsonpatch.5.0.17.nupkg.sha512",
     "C:\\Users\\Юрий\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\5.0.17\\microsoft.aspnetcore.mvc.newtonsoftjson.5.0.17.nupkg.sha512",

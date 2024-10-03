@@ -23,7 +23,7 @@ namespace EventsWebAPI.Infrastructure.Repositories.Implementations
 
         public async Task<IQueryable<Event>> GetAllEventsAsQueryableAsync()
         {
-            var data = await Task.Run(()=> _context.Events.AsQueryable());
+            var data = await Task.Run(()=> _context.Events.AsNoTracking().AsQueryable());
 
             return data;
         }
@@ -67,6 +67,7 @@ namespace EventsWebAPI.Infrastructure.Repositories.Implementations
         public async Task<Event> GetEventByIdIncludingMembersAsync(Guid ID, CancellationToken ct)
         {
             return await _context.Events.Include(e => e.Members)
+                            .AsNoTracking()
                             .FirstOrDefaultAsync(e => e.Id == ID,ct);
         }
 

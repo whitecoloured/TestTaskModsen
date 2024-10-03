@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using EventsWebAPI.Core.Enums;
+using EventsWebAPI.Core.Options;
 
 namespace EventsWebAPI.Services
 {
@@ -11,7 +12,7 @@ namespace EventsWebAPI.Services
     public static class AuthService
     {
 
-        public static IServiceCollection AddAuthService(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAuthService(this IServiceCollection services)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -22,7 +23,7 @@ namespace EventsWebAPI.Services
                         ValidateAudience = false,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtOptions.SecretKey))
                     };
                 });
 

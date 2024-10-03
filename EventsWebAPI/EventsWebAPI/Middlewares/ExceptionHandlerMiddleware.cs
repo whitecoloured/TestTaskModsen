@@ -48,7 +48,7 @@ namespace EventsWebAPI.Middlewares
             HttpResponse response = context.Response;
             response.ContentType = "application/json";
             response.StatusCode = (int)code;
-            string jsonErrorResponse = JsonSerializer.Serialize(new {StatusCode=response.StatusCode, Type=code.ToString(), Message=message  });
+            string jsonErrorResponse = JsonSerializer.Serialize(new { StatusCode = response.StatusCode, Type = code.ToString(), Message = message });
 
             await response.WriteAsync(jsonErrorResponse);
         }

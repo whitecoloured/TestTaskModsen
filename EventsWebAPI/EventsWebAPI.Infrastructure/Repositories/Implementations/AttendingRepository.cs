@@ -22,6 +22,7 @@ namespace EventsWebAPI.Infrastructure.Repositories.Implementations
         {
             //e.toMembersEventDTO()
             return await Task.Run(()=>_context.Attendings
+                .AsNoTracking()
                 .Where(u => u.UserID == UserID)
                 .Include(e => e.Event)
                 .AsQueryable());
@@ -31,6 +32,7 @@ namespace EventsWebAPI.Infrastructure.Repositories.Implementations
         {
             //u.User.toMemberDto()
             return await Task.Run(()=>_context.Attendings
+                .AsNoTracking()
                 .Where(e => e.EventID == EventID)
                 .Include(u => u.User)
                 .AsQueryable());
@@ -38,7 +40,7 @@ namespace EventsWebAPI.Infrastructure.Repositories.Implementations
 
         public async Task<AttendingInfo> GetAttendingAsync(Guid EventID, Guid UserID, CancellationToken ct)
         {
-            return await _context.Attendings.FirstOrDefaultAsync(a => a.EventID == EventID && a.UserID == UserID, ct);
+            return await _context.Attendings.AsNoTracking().FirstOrDefaultAsync(a => a.EventID == EventID && a.UserID == UserID, ct);
         }
 
         public async Task CreateAttendingAsync(Event _event, User user, CancellationToken ct)

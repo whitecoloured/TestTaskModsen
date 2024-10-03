@@ -8,12 +8,14 @@ export const getEvents= async (filters)=>
         var response= await axios.get("https://localhost:44309/api/Events/GetAllEvents",
             {
             params:{
-                SearchValue:filters?.SearchValue,
-                SearchCategory:filters?.SearchCategory,
-                SearchDate:filters?.SearchDate,
-                SortItem:filters?.SortItem,
-                OrderByAsc:filters.OrderByAsc,
-                Page:filters.Page
+                'searchRequest.SearchValue': filters?.SearchValue,
+                'searchRequest.SearchCategory': filters?.SearchCategory,
+                'searchRequest.SearchDate': filters?.SearchDate,
+
+                'filterRequest.SortItem': filters?.SortItem,
+                'filterRequest.OrderByAsc': filters?.OrderByAsc,
+
+                page: filters?.Page
             }
         }
     );
@@ -83,17 +85,13 @@ export const createEvent=async(event)=>
     }
 }
 
-export const editEvent=async(event, eventID)=>
+export const editEvent=async(request)=>
 {
     try{
-        var response=await axios.put("https://localhost:44309/api/Events/UpdateEvent", event,{
+        var response=await axios.put("https://localhost:44309/api/Events/UpdateEvent", request,{
             headers:{
                 'Content-Type':'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem("lolipop-token")
-            },
-            params:
-            {
-                EventID:eventID
             }
         })
         return response;
@@ -115,7 +113,8 @@ export const deleteEvent=async(eventID)=>
             },
             params:
             {
-                EventID:eventID
+                id:eventID
+            
             }
         })
         return response;
@@ -231,7 +230,7 @@ export const getMembersByEvent=async(eventID)=>
         var response=await axios.get("https://localhost:44309/api/Attendings/GetMembersByEvent",{
             params:
             {
-                EventID:eventID
+                id:eventID
             }
         })
         return response.data

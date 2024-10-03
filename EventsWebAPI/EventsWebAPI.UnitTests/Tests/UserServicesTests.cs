@@ -1,9 +1,7 @@
-﻿using EventsWebAPI.Application.Services;
-using EventsWebAPI.Core.Exceptions;
+﻿using EventsWebAPI.Core.Exceptions;
 using Moq;
 using Xunit;
 using System.Threading;
-using EventsWebAPI.Application.Dto_s.Requests.User;
 using EventsWebAPI.Infrastructure.Repositories.Implementations;
 using FluentValidation.Results;
 using AutoMapper;
@@ -15,6 +13,8 @@ using EventsWebAPI.Application.Validation.Users;
 using EventsWebAPI.Core.Models;
 using EventsWebAPI.Context;
 using EventsWebAPI.Infrastructure.Repositories.Interfaces;
+using EventsWebAPI.Application.Commands_and_Queries.Users.Register;
+using EventsWebAPI.Application.Commands_and_Queries.Users.Login;
 
 namespace EventsWebAPI.UnitTests.Tests
 {
@@ -24,35 +24,31 @@ namespace EventsWebAPI.UnitTests.Tests
         private readonly IUserRepository repo;
         private readonly Mock<CreateUserModelValidator> mockValidator;
         private readonly Mock<IMapper> mockMapper;
-        private readonly Mock<JwtDataProviderService> mockJwtDataProvider;
         private readonly Mock<JwtTokenProviderService> mockJwtTokenProvider;
-        private readonly UserService service;
         public UserServicesTests()
         {
             context = new EventsDbContextFactory().CreateDbContext();
             repo = new UserRepository(context);
             mockValidator = new Mock<CreateUserModelValidator>();
             mockMapper = new Mock<IMapper>();
-            mockJwtDataProvider = new Mock<JwtDataProviderService>();
             mockJwtTokenProvider = new Mock<JwtTokenProviderService>();
-            service= new UserService(repo, mockValidator.Object, mockJwtTokenProvider.Object, mockJwtDataProvider.Object, mockMapper.Object);
-
 
         }
         [Fact]
         public async Task UserServices_RegisterTest_BadRequest()
         {
             //Arrange
-            RegisterUserRequest Request = new("inna@", "Inna", "Demidovna", null);
+            RegisterUserCommand Request = new("inna@", "Inna", "Demidovna", null);
             CancellationToken ct = new();
             mockValidator.Setup(v => v.Validate(Request)).Throws(new BadRequestException());
 
+            var handler = new RegisterUserCommandHandler(repo, mockJwtTokenProvider.Object, mockValidator.Object, mockMapper.Object);
             
             //Act
 
             //Assert
 
-            await Assert.ThrowsAsync<BadRequestException>(() => service.Register(Request, ct));
+            await Assert.ThrowsAsync<BadRequestException>(() => handler.Handle(Request,ct));
         }
 
 
@@ -68,20 +64,21 @@ namespace EventsWebAPI.UnitTests.Tests
             };
             context.Users.Add(user);
             context.SaveChanges();
-            RegisterUserRequest Request = new("roman@mail.ru", "Роман", "Романенко", null);
+            RegisterUserCommand Request = new("roman@mail.ru", "Роман", "Романенко", null);
             CancellationToken ct = new();
 
+            var handler = new RegisterUserCommandHandler(repo, mockJwtTokenProvider.Object, mockValidator.Object, mockMapper.Object);
             //Act
 
             //Assert
-            await Assert.ThrowsAsync<NotAcceptableException>(() => service.Register(Request, ct));
+            await Assert.ThrowsAsync<NotAcceptableException>(() => handler.Handle(Request, ct));
         }
 
         [Fact]
         public async Task UserServices_RegisterTest_Success()
         {
             //Arrange
-            RegisterUserRequest Request = new("roman@mail.ru", "Роман", "Романович", null);
+            RegisterUserCommand Request = new("roman@mail.ru", "Роман", "Романович", null);
             CancellationToken ct = new();
             mockValidator.Setup(v => v.Validate(Request)).Returns(new ValidationResult());
             mockMapper.Setup(m => m.Map<User>(Request)).Returns(new User()
@@ -93,8 +90,10 @@ namespace EventsWebAPI.UnitTests.Tests
                 
             });
 
+            var handler = new RegisterUserCommandHandler(repo, mockJwtTokenProvider.Object, mockValidator.Object, mockMapper.Object);
+
             //Act 
-            var result = await service.Register(Request, ct);
+            var result = await handler.Handle(Request,ct);
 
             //Assert
             Assert.NotNull(result);
@@ -113,11 +112,13 @@ namespace EventsWebAPI.UnitTests.Tests
             };
             context.Users.Add(user);
             context.SaveChanges();
-            LoginUserRequest request = new("roman@mail.ru");
+            LoginUserCommand request = new("roman@mail.ru");
             CancellationToken ct = new();
 
+            var handler = new LoginUserCommandHandler(repo, mockJwtTokenProvider.Object);
+
             //Act
-            var result = await service.Login(request, ct);
+            var result = await handler.Handle(request, ct);
 
             //Assert
             Assert.NotNull(result);
@@ -135,12 +136,14 @@ namespace EventsWebAPI.UnitTests.Tests
             };
             context.Users.Add(user);
             context.SaveChanges();
-            LoginUserRequest request = new("ron@mail.ru");
+            LoginUserCommand request = new("ron@mail.ru");
             CancellationToken ct = new();
+
+            var handler = new LoginUserCommandHandler(repo, mockJwtTokenProvider.Object);
 
 
             //Assert
-            await Assert.ThrowsAsync<BadRequestException>(() => service.Login(request, ct));
+            await Assert.ThrowsAsync<BadRequestException>(() => handler.Handle(request, ct));
         }
     }
 }

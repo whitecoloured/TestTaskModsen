@@ -7,6 +7,7 @@ using EventsWebAPI.Infrastructure;
 using EventsWebAPI.Application;
 using EventsWebAPI.Services;
 using EventsWebAPI.Middlewares;
+using MediatR;
 
 namespace EventsWebAPI
 {
@@ -36,10 +37,11 @@ namespace EventsWebAPI
                 });
             });
 
-            services.AddAuthService(Configuration);
-            services.AddEFService();
+            services.AddAuthService();
             services.AddRepoService();
             services.AddAppService();
+
+            services.AddDatabase(Configuration);
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>

@@ -1,10 +1,10 @@
 ﻿using System;
-using EventsWebAPI.Application.Dto_s.Requests.User;
+using EventsWebAPI.Application.Commands_and_Queries.Users.Register;
 using FluentValidation;
 
 namespace EventsWebAPI.Application.Validation.Users
 {
-    public class CreateUserModelValidator : AbstractValidator<RegisterUserRequest>
+    public class CreateUserModelValidator : AbstractValidator<RegisterUserCommand>
     {
         public CreateUserModelValidator()
         {

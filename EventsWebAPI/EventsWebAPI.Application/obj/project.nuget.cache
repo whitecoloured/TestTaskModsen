@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "DFzQQ+xFbHY+tlQsYzy+nsv68Q8eyPX9PpMony/vzIu5unBB9/T926D4N3E7/owNcX8/OF+p5INEhRCi682bYA==",
+  "dgSpecHash": "WvwZ+GDhq9B/RCwmpWjR3ocpayNK5b0cVKU1DD+IpYfxV0XxqNXUNiacF006K+U8iLRsUTBGkDrnJ2ZVYK9ssA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Юрий\\Desktop\\Тестовое задание Modsen\\EventsWebAPI\\EventsWebAPI.Application\\EventsWebAPI.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Юрий\\.nuget\\packages\\automapper\\5.2.0\\automapper.5.2.0.nupkg.sha512",
     "C:\\Users\\Юрий\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\1.1.0\\automapper.extensions.microsoft.dependencyinjection.1.1.0.nupkg.sha512",
     "C:\\Users\\Юрий\\.nuget\\packages\\fluentvalidation\\5.0.0.1\\fluentvalidation.5.0.0.1.nupkg.sha512",
+    "C:\\Users\\Юрий\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
+    "C:\\Users\\Юрий\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\Юрий\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\9.0.0\\mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
     "C:\\Users\\Юрий\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\Юрий\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",
     "C:\\Users\\Юрий\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.0.1\\microsoft.data.sqlclient.sni.runtime.2.0.1.nupkg.sha512",

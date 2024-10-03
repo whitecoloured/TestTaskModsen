@@ -1,10 +1,10 @@
 ﻿using System;
-using EventsWebAPI.Application.Dto_s.Requests.Event;
+using EventsWebAPI.Application.Commands_and_Queries.Events.CreateEvent;
 using FluentValidation;
 
 namespace EventsWebAPI.Application.Validation.Events
 {
-    public class CreateEventModelValidator : AbstractValidator<CreateEventRequest>
+    public class CreateEventModelValidator : AbstractValidator<CreateEventCommand>
     {
         public CreateEventModelValidator()
         {

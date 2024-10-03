@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using EventsWebAPI.Core.Models;
-using EventsWebAPI.Application.Dto_s.Responses.Events;
 using System;
 using EventsWebAPI.Core.Enums;
-using EventsWebAPI.Application.Dto_s.Requests.Event.Abstraction;
+using EventsWebAPI.Application.Commands_and_Queries.Events.GetAllEvents.Responses;
+using EventsWebAPI.Application.Commands_and_Queries.Events.GetEventById;
+using EventsWebAPI.Application.Commands_and_Queries.Events.GetEventByIdWithMembers;
+using EventsWebAPI.Application.Commands_and_Queries.Events.Abstraction;
+using EventsWebAPI.Application.Commands_and_Queries.Attendings.GetMembersEvents;
 
 namespace EventsWebAPI.Application.MapperProfile
 {
@@ -19,7 +22,7 @@ namespace EventsWebAPI.Application.MapperProfile
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => Enum.GetName(typeof(EventCategory), src.Category)))
                 .ForMember(dest => dest.ImageURL, opt => opt.MapFrom(src => src.ImageURL));
 
-            CreateMap<Event, GetEventDTO>()
+            CreateMap<Event, GetEventByIdResponse>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest=> dest.Description, opt=> opt.MapFrom(src=> src.Description))
@@ -29,7 +32,7 @@ namespace EventsWebAPI.Application.MapperProfile
                 .ForMember(dest=> dest.MaxAmountOfMembers, opt=> opt.MapFrom(src=> src.MaxAmountOfMembers))
                 .ForMember(dest => dest.ImageURL, opt => opt.MapFrom(src => src.ImageURL));
 
-            CreateMap<Event, EventInfoDto>()
+            CreateMap<Event, EventInfoResponse>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
@@ -50,7 +53,7 @@ namespace EventsWebAPI.Application.MapperProfile
                 .ForMember(dest => dest.MaxAmountOfMembers, opt => opt.MapFrom(src => src.MaxAmountOfMembers))
                 .ForMember(dest => dest.ImageURL, opt => opt.MapFrom(src => src.ImageURL));
 
-            CreateMap<AttendingInfo, MemberEventDTO>()
+            CreateMap<AttendingInfo, MemberEventResponse>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Event.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Event.Name))
                 .ForMember(dest => dest.RegistrationDate, opt => opt.MapFrom(src => src.RegistrationDate));

@@ -58,6 +58,14 @@
             "FluentValidation": {
               "target": "Package",
               "version": "[5.0.0.1, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             }
           },
           "imports": [

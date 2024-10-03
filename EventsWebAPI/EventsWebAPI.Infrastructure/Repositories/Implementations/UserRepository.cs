@@ -18,12 +18,12 @@ namespace EventsWebAPI.Infrastructure.Repositories.Implementations
 
         public async Task<User> GetUserByIdAsync(Guid ID, CancellationToken ct)
         {
-            return await _context.Users.FindAsync(new object[] { ID },ct);
+            return await _context.Users.FirstOrDefaultAsync(u=> u.Id==ID,ct);
         }
 
         public async Task<User> GetUserByEmailAsync(string Email, CancellationToken ct)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Email == Email,ct);
+            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == Email,ct);
         }
 
         public async Task CreateUserAsync(User user, CancellationToken ct)

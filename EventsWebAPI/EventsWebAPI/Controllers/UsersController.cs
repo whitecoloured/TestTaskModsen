@@ -1,10 +1,14 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EventsWebAPI.Application.Dto_s.Requests.User;
-using EventsWebAPI.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using MediatR;
+using EventsWebAPI.Application.Commands_and_Queries.Users.GetProfileInfo;
+using EventsWebAPI.Application.Commands_and_Queries.Users.GetUserRole;
+using EventsWebAPI.Application.Commands_and_Queries.Users.Register;
+using EventsWebAPI.Application.Commands_and_Queries.Users.Login;
+using EventsWebAPI.Application.Commands_and_Queries.Users.DeleteUserProfile;
 
 namespace EventsWebAPI.Controllers
 {
@@ -12,10 +16,10 @@ namespace EventsWebAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserService _service;
-        public UsersController(UserService service)
+        private readonly ISender _sender;
+        public UsersController(ISender sender)
         {
-            _service = service;
+            _sender = sender;
         }
 
         [HttpGet]
@@ -24,7 +28,8 @@ namespace EventsWebAPI.Controllers
         public async Task<IActionResult> GetProfileInfo(CancellationToken ct)
         {
             var headerData = Request.Headers.FirstOrDefault(x => x.Key == "Authorization");
-            var userData = await _service.GetProfileInfo(headerData, ct);
+            GetProfileInfoQuery query = new(headerData);
+            var userData = await _sender.Send(query, ct);
             return Ok(userData);
         }
 
@@ -34,23 +39,24 @@ namespace EventsWebAPI.Controllers
         public IActionResult GetUserRole()
         {
             var headerData = Request.Headers.FirstOrDefault(x => x.Key == "Authorization");
-            string role = _service.GetUserRole(headerData);
+            GetUserRoleQuery query = new(headerData);
+            string role = _sender.Send(query).Result;
             return Ok(role);
         }
 
         [HttpPost]
         [Route("Register")]
-        public async Task<IActionResult> Register(RegisterUserRequest request, CancellationToken ct)
+        public async Task<IActionResult> Register(RegisterUserCommand command, CancellationToken ct)
         {
-            string token = await _service.Register(request, ct);
+            string token = await _sender.Send(command, ct);
             return Ok(token);
         }
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login(LoginUserRequest request, CancellationToken ct)
+        public async Task<IActionResult> Login(LoginUserCommand command, CancellationToken ct)
         {
-            string token = await _service.Login(request, ct);
+            string token = await _sender.Send(command, ct);
             return Ok(token);
         }
 
@@ -60,8 +66,9 @@ namespace EventsWebAPI.Controllers
         public async Task<IActionResult> DeleteUserProfile(CancellationToken ct)
         {
             var headerData=Request.Headers.FirstOrDefault(x => x.Key == "Authorization");
-            await _service.DeleteUserProfile(headerData, ct);
-            return Ok();
+            DeleteUserCommand command = new(headerData);
+            var result = await _sender.Send(command, ct);
+            return Ok(result);
         }
 
     }

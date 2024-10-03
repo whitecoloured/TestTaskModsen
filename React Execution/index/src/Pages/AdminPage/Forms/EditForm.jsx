@@ -51,7 +51,7 @@ function EditForm()
 
     async function EditFunction()
     {
-        var response=await editEvent(event, event.id);
+        var response=await editEvent(request);
         if (response.status===200)
         {
             setShowAlertonEdit(true);
@@ -75,6 +75,8 @@ function EditForm()
         maxAmountOfMembers:null,
         imageURL:null
     });
+    
+
     const [isLoading, setIsLoading]=useState(true);
 
     const [role, setRole]=useState(null);
@@ -87,6 +89,12 @@ function EditForm()
 
     const location=useLocation();
     const index=location.state.id;
+
+
+    const request={
+        ID:index,
+        Request:event
+    }
 
     useEffect(()=>
     {

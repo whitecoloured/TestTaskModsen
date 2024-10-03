@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using EventsWebAPI.Core.Models;
+using EventsWebAPI.Core.Options;
 
 namespace EventsWebAPI.Application.Jwt.JwtTokenProviderService
 {
@@ -11,7 +12,7 @@ namespace EventsWebAPI.Application.Jwt.JwtTokenProviderService
     {
         public string GenerateToken(User user)
         {
-            var credentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes("spinnersarebouttoinvadetheworld")), SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtOptions.SecretKey)), SecurityAlgorithms.HmacSha256);
 
             Claim[] claims = new[]
             { new Claim("ID", user.Id.ToString()),
